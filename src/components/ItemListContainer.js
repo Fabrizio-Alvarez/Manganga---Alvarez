@@ -1,10 +1,11 @@
 import React from 'react'
+import Item from './Item'
 
-const ItemListContainer = ({greeting}) => {
+const ItemListContainer = () => {
   return (
     <div className="md:container md:mx-auto text-center">
-        <p className="hover:text-pink-600">{greeting}</p>
-        </div>
+      <div className="hover:text-pink-600">{<Item/>}</div>
+    </div>
   )
 }
 
