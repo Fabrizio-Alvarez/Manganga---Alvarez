@@ -4,13 +4,18 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import ItemListContainer from './components/ItemListContainer';
 import ItemCount from './components/ItemCount';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './components/Home';
 
 function App() {
   return (
-        <>
-          <Navbar/>
-          <ItemListContainer/>
-        </>
+    <BrowserRouter>
+      <Navbar/>
+      <Routes>
+        <Route path='/home' element={<Home/>}/>
+        <Route path='/merchandising' element={<ItemListContainer/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
