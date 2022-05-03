@@ -1,37 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const ItemCount = ({stock}) => {
+const ItemCount = ({detalle}) => {
 
-    const [count, setCount] = useState(stock)
+    const [countStock, setCountStock] = useState(parseInt(detalle.stock))
 
-    const addHandler = () => {
-        setCount(count + 1);
+    const addHandlerStock = () => {
+      if (countCantidad > parseInt(0)) {
+        setCountStock(countStock + 1);
+      }
     } 
 
-    const subsHandler = () => {
-      if (count != 0) {
-        setCount(count - 1);
+    const subsHandlerStock = () => {
+      if (countStock > parseInt(0)) {
+        setCountStock(countStock - 1);
+        return (<label htmlFor="my-modal" className="btn">Buy!</label>)
+      }
+    }
+
+    const [countCantidad, setCountCantidad] = useState(parseInt(0))
+
+    const addHandlerCantidad = () => {
+      if (countStock > parseInt(0)) {
+        setCountCantidad(countCantidad + 1);
+      }
+    } 
+
+    const subsHandlerCantidad = () => {
+      if (countCantidad > parseInt(0)) {
+        setCountCantidad(countCantidad - 1);
       }
     } 
     
   return (
-    <div id='itemCount'>
-      <label htmlFor="my-modal" className="btn modal-button">Buy</label>
-      <input type="checkbox" id="my-modal" className="modal-toggle"/>
-      <div className="modal">
-        <div className="modal-box">
-        <span>Stock</span>
-        <div className='grid grid-rows-3 justify-center'>
-          <button onClick={subsHandler}> - </button>
-          <strong> {count} </strong>
-          <button onClick={addHandler}> + </button>
-        </div>
-        <div className="modal-action">
-          <label htmlFor="my-modal" className="btn">Buy!</label>
-        </div>
-      </div>
-      </div>
+    <>
+    <span>Stock = {countStock}</span>
+        <div className='grid grid-cols-3 justify-center'>
+          <button className='mx-5 btn btn-outline flex text-3xl text-center' onClick={() => { subsHandlerCantidad(); addHandlerStock()} }> - </button>
+          <strong className='mx-5 text-3xl'> {countCantidad} </strong>
+          <button className='mx-5 btn btn-outline text-3xl text-center' onClick={() => { subsHandlerStock(); addHandlerCantidad()} }> + </button>
     </div>
+    </>
   )
 }
 

@@ -1,15 +1,14 @@
-import React from 'react'
-import ItemCount from './ItemCount'
+import React from 'react';
+import ItemDetailContainer from './ItemDetailContainer'
 
 const Item = ({detalles}) => {
   return (
     <div id={detalles.id} className="card bg-base-100 shadow-xl w-1/2 ">
-        <figure><img src={detalles.imgUrl} alt="T-shirts" /></figure>
         <div className="card-body">
-            <h2 className="card-title">T-shirts!</h2>
-            <p>{detalles.descripcion}</p>
-            <div className="card-actions justify-end">
-            <ItemCount stock={parseInt(detalles.stock)}/>
+        <figure><img src={detalles.imgUrl} alt="T-shirts" /></figure>
+            <h2 className="card-title self-center">T-shirts!</h2>
+            <div className="card-actions justify-center">
+            <ItemDetailContainer detalles={detalles}/>
             </div>
         </div>
     </div>

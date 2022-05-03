@@ -8,7 +8,7 @@ const ItemListContainer = () => {
     'precio' : '1500$',
     'descripcion' : 'Una remera re copada de los strokes',
     'imgUrl' : 'https://i.pinimg.com/474x/31/e3/3c/31e33cc3e88e71304ea71329f1f91d47--band-shirts-logo-t-shirts.jpg',
-    'stock' : '500'
+    'stock' : '10'
   }]
 
   const [detalle, setDetalle] = useState([]);
@@ -19,7 +19,6 @@ const ItemListContainer = () => {
         if (detalles == []) {
           reject('ha fallado la consulta')
         } else {
-          console.log(detalles)
           resolve(detalles)
         }
       }, 2000);
@@ -27,7 +26,6 @@ const ItemListContainer = () => {
     
     promesa.then (
       result => {
-          console.log(result)
           setDetalle(result)
         }
     )
