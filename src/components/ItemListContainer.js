@@ -1,40 +1,36 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 import ItemList from './ItemList'
 
-const ItemListContainer = () => {
+const ItemListContainer = ({merchandisingData}) => {
+  const categoryId = useParams()['tipoId']
 
-  const detalles = [{
-    'id' : '1',
-    'precio' : '1500$',
-    'descripcion' : 'Una remera re copada de los strokes',
-    'imgUrl' : 'https://i.pinimg.com/474x/31/e3/3c/31e33cc3e88e71304ea71329f1f91d47--band-shirts-logo-t-shirts.jpg',
-    'stock' : '10'
-  }]
-
-  const [detalle, setDetalle] = useState([]);
+  const [itemData, setItemData] = useState([]);
 
   useEffect(() => {
     const promesa = new Promise( (resolve, reject) => {
       setTimeout(() => {
-        if (detalles == []) {
+        if (merchandisingData == []) {
           reject('ha fallado la consulta')
         } else {
-          resolve(detalles)
+          resolve(merchandisingData)
         }
       }, 2000);
     })
     
     promesa.then (
       result => {
-          setDetalle(result)
+        if (categoryId != undefined) {
+          result = result.filter( i => i.tipoId == categoryId)
+        }
+        setItemData(result)
         }
     )
       
-  }, []);
-    
+  }, [categoryId]);
   return (
       <div className="md:container md:mx-auto text-center">
-        {detalle.map ((item) => {return <ItemList detalles={item}/>})}
+      <ItemList merchandisingData={itemData}/>
       </div>
     )
 }

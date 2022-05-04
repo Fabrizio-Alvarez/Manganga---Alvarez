@@ -1,32 +1,33 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
+import merchandisingData from './data/merchandisingData';
 import ItemDetail from './ItemDetail';
 
-const ItemDetailContainer = ({detalles}) => {
+const ItemDetailContainer = () => {
 
-  const [detalle, setDetalle] = useState([]);
+  const itemId = useParams()['itemId'];
+
+  const [item, setItem] = useState({});
 
   useEffect(() => {
     const promesa = new Promise( (resolve, reject) => {
       setTimeout(() => {
-        if (detalles == []) {
+        if (merchandisingData == []) {
           reject('ha fallado la consulta')
         } else {
-          resolve(detalles)
+          resolve(merchandisingData)
         }
       }, 2000);
     })
     
     promesa.then (
       result => {
-          setDetalle(result)
+          setItem(result.find( i => i.id == itemId))
         }
     )
-      
-  }, [detalle]);
+  }, [itemId]);
 
-    return (
-            <ItemDetail detalles={detalle}/>
-    )
+  return(<ItemDetail detalles={item}/>)
 }
 
 export default ItemDetailContainer

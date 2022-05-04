@@ -7,16 +7,19 @@ const Navbar = () => {
     <div id='navbar'>
       <div className="navbar bg-base-100 bg-zinc-900">
         <div className="flex-1">
-          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/home'}>Manganga</Link>
+          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/'}>Manganga</Link>
         </div>
         <div className="flex-1">
-          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/merchandising'}>Merchandising</Link>
+          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/category/1'}>Remeras</Link>
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl text-pink-600">QaA</a>
+          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/category/2'}>Buzos</Link>
         </div>
         <div className="flex-1">
-          <a className="btn btn-ghost normal-case text-xl text-pink-600">LineUp</a>
+          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/category/3'}>Gorras</Link>
+        </div>
+        <div className="flex-1">
+          <Link className="btn btn-ghost normal-case text-xl text-pink-600" to={'/category/4'}>Collares</Link>
         </div>
         <div className="flex-none">
         <>
