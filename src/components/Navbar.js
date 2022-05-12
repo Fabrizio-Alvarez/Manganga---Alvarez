@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import CartWidget from './CartWidget'
 
-const Navbar = () => {
+const Navbar = ({merchandisingData}) => {
   return (
     <div id='navbar'>
       <div className="navbar bg-base-100 bg-zinc-900">
@@ -23,7 +23,7 @@ const Navbar = () => {
         </div>
         <div className="flex-none">
         <>
-          <CartWidget items_amount='4' subtotal='5499'/>
+          <CartWidget merchandisingData={merchandisingData}/>
         </>
 
           <div className="dropdown dropdown-end">

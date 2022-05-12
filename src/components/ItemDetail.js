@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 import ItemCount from './ItemCount'
 
 const ItemDetail = ({detalles}) => {
 
 const [ocultar, setOcultar] = useState(false);
 
+const { addToCarro, carroItems } = useContext(CartContext);
+
 const agregarAlCarro = () => {
   setOcultar(true);
+  addToCarro(detalles.id);
 }
 
 useEffect(() => {
@@ -52,7 +56,7 @@ if (detalles.id != undefined) {
             <div className="flex">
               <span className="title-font font-medium text-2xl text-gray-900">{detalles.precio}</span>
               {!ocultar ? 
-              <button onClick={agregarAlCarro} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded">Agregar al carrito</button>
+              <button onClick={ () => {agregarAlCarro()}} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded">Agregar al carrito</button>
               : ''  
               }
               <Link className="flex ml-auto text-white bg-red-500 border-0 py-2 px-4 focus:outline-none hover:bg-red-600 rounded" to={`/cart`}>Terminar mi compra</Link>
