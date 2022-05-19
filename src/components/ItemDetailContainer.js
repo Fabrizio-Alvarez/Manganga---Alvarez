@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import merchandisingData from './data/merchandisingData';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import ItemDetail from './ItemDetail';
 
 const ItemDetailContainer = () => {
@@ -9,22 +9,13 @@ const ItemDetailContainer = () => {
 
   const [item, setItem] = useState({});
 
+  const db = getFirestore()
+
   useEffect(() => {
-    const promesa = new Promise( (resolve, reject) => {
-      setTimeout(() => {
-        if (merchandisingData == []) {
-          reject('ha fallado la consulta')
-        } else {
-          resolve(merchandisingData)
-        }
-      }, 2000);
+    let docId = doc(db, 'items', itemId);
+    getDoc(docId).then( snapshot => {
+      setItem(snapshot.data());
     })
-    
-    promesa.then (
-      result => {
-          setItem(result.find( i => i.id == itemId))
-        }
-    )
   }, [itemId]);
 
   return(<ItemDetail detalles={item}/>)

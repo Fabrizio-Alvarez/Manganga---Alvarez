@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CartContext } from '../context/CartContext';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 
-const CartWidget = ({merchandisingData}) => {debugger
+const CartWidget = () => {
 
   const {carroItems} = useContext(CartContext);
   
@@ -11,11 +12,24 @@ const CartWidget = ({merchandisingData}) => {debugger
   const [cantidad, setCantidad] = useState(parseInt(0))
 
   const [itemsCarro, setItemsCarro] = useState([]);
-  
+
+  const [item, setItem] = useState({})
+
+  const db = getFirestore();
   useEffect(() => {
+    let itemId = [];
+    setItemsCarro([]);
     if (carroItems && carroItems.length > 0) {
       carroItems.forEach(carroItem => {
-        setItemsCarro(merchandisingData.filter( i => i.id == carroItem.itemId))
+        itemId = doc(db, 'items', carroItem.itemId);
+        getDoc(itemId).then( snapshot  => {
+          setItem(snapshot.data());
+        })
+        if (itemsCarro.length > 0) {
+          setItemsCarro(itemsCarro.concat(item))
+        } else {
+          setItemsCarro(item)
+        }
         setCantidad(parseInt(cantidad) + parseInt(carroItem.cantidad))
       });
     }

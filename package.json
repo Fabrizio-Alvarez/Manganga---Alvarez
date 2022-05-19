@@ -9,6 +9,7 @@
     "ansi-html": "^0.0.9",
     "chokidar": "^3.5.3",
     "daisyui": "^2.14.1",
+    "firebase": "^9.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",

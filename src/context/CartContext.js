@@ -13,7 +13,6 @@ const CartProvider = ({children}) => {
     const addToCarro = ( item ) => {
         let duplicado = false;
         setCarroItems ( current => {
-            if (current) {
                 current.forEach( (itemCarro, index, current) => {
                     if (itemCarro.itemId == item.itemId) {
                         duplicado = true
@@ -21,13 +20,11 @@ const CartProvider = ({children}) => {
                     }
                 });
                 if (!duplicado) {
-                    return current.concat(item);
+                    current.push(item)
+                    return current
                 } else {
                     return current
                 }
-            } else {
-                current = item;
-            }
         })
     }
 

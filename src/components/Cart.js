@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import merchandisingData from './data/merchandisingData';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
 const Cart = () => {
@@ -10,21 +10,29 @@ const Cart = () => {
   
   const [items, setItems] = useState([]);
 
+  const db = getFirestore();
+
+  let itemsArr = []
+
   useEffect(() => {
+    let itemId = [];
     if (carroItems && carroItems.length > 0) {
-      let itemsArr = []
       carroItems.forEach(carroItem => {
-        itemsArr = itemsArr.concat(merchandisingData.filter( i => i.id == carroItem.itemId))
+        itemId = doc(db, 'items', carroItem.itemId);
+        getDoc(itemId).then( snapshot => {
+          itemsArr.push(snapshot.data());
+        })
         itemsArr.forEach(item => {
           if (item.id == carroItem.itemId) {
             item.cantidad = carroItem.cantidad
           }
         });
       });
-      setItems(itemsArr)
     }
+    setItems(itemsArr)
   }, [carroItems]);
-  if (items !== undefined && items.length > 0) {
+
+  if (items !== undefined && items !== []) {
     return (
       <div className="grid">
         {items.map((item) => {
