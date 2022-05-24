@@ -15,21 +15,23 @@ const CartWidget = () => {
 
   const [item, setItem] = useState({})
 
-  const db = getFirestore();
+  let itemId = [];
+  
   useEffect(() => {
-    let itemId = [];
-    setItemsCarro([]);
+    const db = getFirestore();
     if (carroItems && carroItems.length > 0) {
       carroItems.forEach(carroItem => {
-        itemId = doc(db, 'items', carroItem.itemId);
+        itemId = doc(db, 'items', toString(carroItem.itemId))
         getDoc(itemId).then( snapshot  => {
           setItem(snapshot.data());
+          if (itemsCarro.length > 0) {
+            snapshot.data(item)
+            setItemsCarro(itemsCarro.concat(item))
+          } else {
+            snapshot.data(item)
+            setItemsCarro(item)
+          }
         })
-        if (itemsCarro.length > 0) {
-          setItemsCarro(itemsCarro.concat(item))
-        } else {
-          setItemsCarro(item)
-        }
         setCantidad(parseInt(cantidad) + parseInt(carroItem.cantidad))
       });
     }

@@ -15,9 +15,9 @@ function App() {
       <BrowserRouter>
         <Navbar merchandisingData={merchandisingData}/>
         <Routes>
-          <Route path='/' element={<ItemListContainer merchandisingData={merchandisingData}/>}/>
+          <Route path='/' element={<ItemListContainer/>}/>
           <Route path='/item/:itemId' element={<ItemDetailContainer/>}/>
-          <Route path='/category/:tipoId' element={<ItemListContainer merchandisingData={merchandisingData}/>}/>
+          <Route path='/category/:tipoId' element={<ItemListContainer/>}/>
           <Route path='/cart' element={<Cart/>}/>
         </Routes>
       </BrowserRouter>

@@ -11,7 +11,7 @@ const [cantidad, setCantidad] = useState(parseInt(0))
 
 const { addToCarro, carroItems } = useContext(CartContext);
 
-const agregarAlCarro = () => {debugger
+const agregarAlCarro = () => {
   setTerminarCompra(true);
   setOcultar(true);
   addToCarro({itemId : detalles.id, cantidad : cantidad});

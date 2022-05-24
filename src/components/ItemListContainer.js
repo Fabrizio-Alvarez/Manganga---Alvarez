@@ -7,23 +7,23 @@ const ItemListContainer = () => {
   const categoryId = useParams()['tipoId']
 
   const [itemData, setItemData] = useState([]);
-  const db = getFirestore()
-  let itemsArr = []
-
+  
   useEffect(() => {
-    
-      itemsArr = []
+    const db = getFirestore()
+    let itemsArr = []
       const docs = collection(db, 'items')
         getDocs(docs).then( snapshot => {
           snapshot.docs.forEach(item => {
+            if (categoryId == undefined) {
+              itemsArr.push(item.data())
+              setItemData(itemsArr);
+            }
             if (categoryId == item.data().tipoId) {
               itemsArr.push(item.data())
+              setItemData(itemsArr);
             }
         });
       })
-      setItemData(itemsArr);
-
-
   }, [categoryId]);
 
   return (

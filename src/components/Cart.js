@@ -9,12 +9,10 @@ const Cart = () => {
   const { carroItems, removerDeCarro } = useContext(CartContext);
   
   const [items, setItems] = useState([]);
-
-  const db = getFirestore();
-
-  let itemsArr = []
-
+  
   useEffect(() => {
+    let itemsArr = []
+    const db = getFirestore();
     let itemId = [];
     if (carroItems && carroItems.length > 0) {
       carroItems.forEach(carroItem => {
