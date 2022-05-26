@@ -2,7 +2,7 @@ import React from 'react'
 import { createContext, useState } from "react";
 
 export const CartContext = createContext({
-    carroItems: []
+    carroItems: [],
 });
 
 
@@ -11,21 +11,18 @@ const CartProvider = ({children}) => {
     const [carroItems, setCarroItems] = useState([]);
 
     const addToCarro = ( item ) => {
-        let duplicado = false;
-        setCarroItems ( current => {
-                current.forEach( (itemCarro, index, current) => {
-                    if (itemCarro.itemId == item.itemId) {
-                        duplicado = true
-                        return current[index].cantidad = current[index].cantidad + item.cantidad
-                    }
-                });
-                if (!duplicado) {
-                    current.push(item)
-                    return current
-                } else {
-                    return current
-                }
-        })
+        if (isInCarro(item.itemId)) {
+            let index = carroItems.findIndex((index) => (index.itemId == item.itemId))
+            let copyCarro = [...carroItems]
+            copyCarro[index].cantidad += item.cantidad
+            setCarroItems(copyCarro)
+        } else {
+            setCarroItems([...carroItems, item])
+        }
+    }
+
+    const isInCarro = (id) => { 
+        return carroItems.some((carroItem) => (carroItem.itemId == id))
     }
 
     const removerDeCarro = (itemId) => {

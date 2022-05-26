@@ -13,42 +13,30 @@ const CartWidget = () => {
 
   const [itemsCarro, setItemsCarro] = useState([]);
 
-  const [item, setItem] = useState({})
-
   let itemId = [];
   
   useEffect(() => {
     const db = getFirestore();
     if (carroItems && carroItems.length > 0) {
       carroItems.forEach(carroItem => {
-        itemId = doc(db, 'items', toString(carroItem.itemId))
+        itemId = doc(db, 'items', carroItem.itemId.toString())
         getDoc(itemId).then( snapshot  => {
-          setItem(snapshot.data());
-          if (itemsCarro.length > 0) {
-            snapshot.data(item)
-            setItemsCarro(itemsCarro.concat(item))
-          } else {
-            snapshot.data(item)
-            setItemsCarro(item)
-          }
+          let item = snapshot.data();
+          item.cantidad = carroItem.cantidad;
+          setItemsCarro([...itemsCarro, item])
         })
-        setCantidad(parseInt(cantidad) + parseInt(carroItem.cantidad))
       });
     }
   }, [carroItems]);
   
   useEffect(() => {
-    if (itemsCarro != undefined && itemsCarro.length > 0) {
-      itemsCarro.forEach(item => {
-        carroItems.forEach(carroItem => {
-          if (carroItem.itemId == item.id) {
-            setSubtotal(subtotal + (parseInt(item.precio) * parseInt(carroItem.cantidad)))
-          }
-        })
-      });
-    }
+    itemsCarro.forEach(itemCarro => {
+      if (carroItems.some((carroItem) => (carroItem.itemId == itemCarro.id))) {
+        setSubtotal(subtotal + (parseInt(itemCarro.precio) * parseInt(itemCarro.cantidad)))
+        setCantidad(parseInt(cantidad) + parseInt(itemCarro.cantidad))
+      }
+    });
   }, [itemsCarro]);
-  
 
   return (
     <div className="dropdown dropdown-end">

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getFirestore } from 'firebase/firestore';
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 
 const Cart = () => {
@@ -10,26 +10,51 @@ const Cart = () => {
   
   const [items, setItems] = useState([]);
   
+  let total = 0;
+
   useEffect(() => {
     let itemsArr = []
     const db = getFirestore();
     let itemId = [];
     if (carroItems && carroItems.length > 0) {
       carroItems.forEach(carroItem => {
-        itemId = doc(db, 'items', carroItem.itemId);
+        total += carroItem.cantidad * carroItem.precio
+        itemId = doc(db, 'items', carroItem.itemId.toString());
         getDoc(itemId).then( snapshot => {
           itemsArr.push(snapshot.data());
+          itemsArr.forEach(item => {
+            if (carroItems.some((carroItem) => (carroItem.itemId == item.id))) {
+              item.cantidad = carroItem.cantidad
+            }
+          });
+          setItems(itemsArr)
         })
-        itemsArr.forEach(item => {
-          if (item.id == carroItem.itemId) {
-            item.cantidad = carroItem.cantidad
-          }
-        });
       });
     }
-    setItems(itemsArr)
   }, [carroItems]);
 
+  const buyCarro = async () => {
+    const buyer = {
+      name: 'Juan Perez',
+      phone: '+5406574638164',
+      Email: 'juanprz@gmail.com'
+    }
+
+    const itemsOrden = items.map( ({id, cantidad, precio}) => ({id, cantidad, precio}) );
+
+    const date = new Date().toISOString().slice(0,10);
+
+    const purchaseInformation = {
+      buyer,
+      itemsOrden,
+      date,
+      total
+    }
+
+    const db = getFirestore();
+    const ordenes = collection(db, 'ordenes')
+    const response = await addDoc(ordenes, purchaseInformation)
+  }
   if (items !== undefined && items !== []) {
     return (
       <div className="grid">
@@ -50,6 +75,7 @@ const Cart = () => {
             </div>
             )
           })}
+          <button onClick={buyCarro} className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-pink-600 active:bg-black hover:bg-black">Comprar carro</button>
       </div>
     )
   } else {
